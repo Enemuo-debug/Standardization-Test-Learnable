@@ -8,6 +8,10 @@ const CommentsSchema = new Schema({
     CommentID: {
         type: String,
         required: true,
+    },
+    Commenter: {
+        type: String,
+        required: true,
     }
 }, { timestamps: true })
 
