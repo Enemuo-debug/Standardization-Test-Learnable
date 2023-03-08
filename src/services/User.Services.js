@@ -11,6 +11,9 @@ class UserServices {
     async findUsers(){
         return await UserModel.find()
     }
+    async findByName(name){
+        return await UserModel.findOne({ UserName: name })
+    }
     async findByID(id){
         return await UserModel.findById(id)
     }
