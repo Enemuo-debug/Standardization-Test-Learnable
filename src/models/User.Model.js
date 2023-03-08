@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose')
+const bcrypt = require('bcrypt')
 
 const UserSchema = new Schema({
     UserName: {
@@ -16,6 +17,11 @@ const UserSchema = new Schema({
         unique: true
     }
 }, { timestamps: true })
+
+UserSchema.pre('save', async function(next){
+    const salt = await bcrypt.genSalt()
+    this.PassWord = await bcrypt.hash(this.PassWord, salt)
+})
 
 const UserModel = model('Post-it Users', UserSchema)
 
