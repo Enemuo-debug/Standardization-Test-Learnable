@@ -21,6 +21,7 @@ const UserSchema = new Schema({
 UserSchema.pre('save', async function(next){
     const salt = await bcrypt.genSalt()
     this.PassWord = await bcrypt.hash(this.PassWord, salt)
+    next()
 })
 
 const UserModel = model('Post-it Users', UserSchema)
