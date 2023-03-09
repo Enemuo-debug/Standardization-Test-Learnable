@@ -20,6 +20,10 @@ class PostsServices{
         return await PostsModel.findOne(id)
     }
 
+    async FindById(id){
+        return await PostsModel.findById(id)
+    }
+
     async UpdatePost(id, title, description, posterid){
         const data = {
             PostTitle: title,
