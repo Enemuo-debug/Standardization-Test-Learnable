@@ -1,20 +1,26 @@
 const { Schema, model } = require('mongoose')
 const bcrypt = require('bcrypt')
+const generateRandomAvatar = require('../middlewares/DiceBearAPI')
 
 const UserSchema = new Schema({
     UserName: {
         type: String,
-        required: true,
-        unique: true,
+        required: [true, 'Username is required'],
+        // unique: true,
     },
     PassWord: {
         type: String,
-        required: true,
+        required: [true, 'Password is required'],
     },
+    // Avatar: {
+    //     type: String,
+    //     required: true,
+    //     default: generateRandomAvatar(),
+    // },
     Email: {
         type: String,
-        required: true,
-        unique: true
+        required: [true, 'Email is required'],
+        // unique: true
     },
     isActive: {
         type: Boolean,

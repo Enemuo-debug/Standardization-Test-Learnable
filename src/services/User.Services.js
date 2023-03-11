@@ -9,13 +9,13 @@ class UserServices {
         })
     }
     async findUsers(){
-        return await UserModel.find()
+        return await UserModel.findOne({ isActive: true })
     }
     async findByName(name){
-        return await UserModel.findOne({ UserName: name })
+        return await UserModel.findOne({ UserName: name, isActive: true })
     }
     async findByID(id){
-        return await UserModel.findById(id)
+        return await UserModel.findById({ _id: id, isActive: true })
     }
     async updateUser(id, name, password, email){
         const data = {
@@ -27,6 +27,9 @@ class UserServices {
     }
     async deleteUser(id){
         return await UserModel.findByIdAndDelete(id)
+    }
+    async FindByIdAndUpdate(id){
+        return await UserModel.findOneAndUpdate({ _id: id }, { isActive: false }, { new: true })
     }
 }
 

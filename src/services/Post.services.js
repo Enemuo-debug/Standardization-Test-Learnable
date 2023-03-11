@@ -17,11 +17,18 @@ class PostsServices{
 
     // Fetch Post-it by Posters-ID
     async FindByPostID (id){
-        return await PostsModel.findOne(id)
+        const Posts = await PostsModel.find()
+        const Required = []
+        for(let i = 0; i < Posts.length; i++){
+            if(Posts[i].PosterID == id){
+                Required.push(Posts[i])
+            }
+        }
+        return Required
     }
 
-    async FindById(id){
-        return await PostsModel.findById(id)
+    async findByID(id){
+        return await PostsModel.findById({ _id: id, isActive: true })
     }
 
     async UpdatePost(id, title, description, posterid){
@@ -34,6 +41,9 @@ class PostsServices{
     }
     async DeletePost(id){
         return await PostsModel.findByIdAndDelete(id)
+    }
+    async FindByIdAndUpdate(id){
+        return await PostsModel.findOneAndUpdate({ _id: id }, { isActive: false }, { new: true })
     }
 }
 
