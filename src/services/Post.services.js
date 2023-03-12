@@ -45,6 +45,9 @@ class PostsServices{
     async FindByIdAndUpdate(id){
         return await PostsModel.findOneAndUpdate({ _id: id }, { isActive: false }, { new: true })
     }
+    async Update2(id, data){
+        return await PostsModel.findByIdAndUpdate(id, data, { new: true })
+    }
 }
 
 module.exports = new PostsServices()

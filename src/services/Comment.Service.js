@@ -43,7 +43,10 @@ class CommentServices {
         return await CommentModel.findByIdAndDelete(id)
     }
     async findById(id){
-        return await CommentModel.findById(id)
+        return await CommentModel.findById({_id: id, isActive: true})
+    }
+    async Update2(id, data){
+        return await CommentModel.findByIdAndUpdate(id, data, { new: true })
     }
 }
 

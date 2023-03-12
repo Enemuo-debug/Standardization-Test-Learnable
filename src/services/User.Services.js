@@ -28,6 +28,9 @@ class UserServices {
     async deleteUser(id){
         return await UserModel.findByIdAndDelete(id)
     }
+    async Update2(id, data){
+        return await UserModel.findByIdAndUpdate(id, data, { new: true })
+    }
     async FindByIdAndUpdate(id){
         return await UserModel.findOneAndUpdate({ _id: id }, { isActive: false }, { new: true })
     }
