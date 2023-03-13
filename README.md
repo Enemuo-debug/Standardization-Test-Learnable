@@ -8,7 +8,7 @@ Postman collection Api documentation: https://documenter.getpostman.com/view/263
 
 Db model: https://dbdesigner.page.link/HVs5HxegV6M4Mt1t7
 
-Live Link = https://post-its-application.onrender.com/user
+Live Link = https://post-its-application.onrender.com/
 
 
 # Instructions
