@@ -205,18 +205,27 @@ class UserControllers {
   }
   async Logout(req, res) {
     const token = req.cookies.jwt;
-    if (token) {
-      res.cookie("jwt", "", { maxAge: 1 });
-      return res.status(200).json({
-        message: "LogOut was successful",
-        success: true,
-      });
-    } else {
-      return res.status(404).json({
-        message:
-          "You are not logged in and cannot access this feature: LogIn Now!!!",
+    if (!token) {
+      res.clearCookie('jwt');
+      return res.status(401).json({
+        message: "You are not logged in and cannot access this feature: LogIn Now!!!",
         success: false,
       });
+    } else {
+      JWT.verify(token, process.env.SECRET, async (error, decodedToken)=>{
+        if(error){
+          return res.status(401).json({
+            message: "Token has been tampered",
+            success: false,
+          });
+        }
+        else{
+          return res.status(200).json({
+            message: "LogOut was successful",
+            success: true,
+          });
+        }
+      })
     }
   }
 
