@@ -12,15 +12,19 @@ const UserSchema = new Schema({
         type: String,
         required: [true, 'Password is required'],
     },
-    // Avatar: {
-    //     type: String,
-    //     required: true,
-    //     default: generateRandomAvatar(),
-    // },
+    
     Email: {
         type: String,
         required: [true, 'Email is required'],
         // unique: true
+    },
+    avatarUrl: {
+        type: String,
+        required: true
+    },
+    imageTag: {
+        type: String,
+        required: true,
     },
     isActive: {
         type: Boolean,
@@ -28,11 +32,23 @@ const UserSchema = new Schema({
     }
 }, { timestamps: true })
 
-// UserSchema.pre('save', async function(next){
-//     const salt = await bcrypt.genSalt()
-//     this.PassWord = await bcrypt.hash(this.PassWord, salt)
-//     next()
+// UserSchema.virtual('avatarUrl').get(async function() {
+//     // const altText = `Avatar for ${this.UserName}`;
+//     this.avatarUrl2 = await generateRandomAvatar(this.email)
+//     return await generateRandomAvatar(this.email)
+// });
+
+// UserSchema.virtual('imageTag').get(function() {
+//     const altText = `Avatar for ${this.UserName}`;
+//     this.imageTag2 = `<img src="${this.avatarUrl}" alt="${altText}">`
+//     return `<img src="${this.avatarUrl}" alt="${altText}">`;
+// });
+
+// UserSchema.pre('save', async function (next){
+//     const altText = `Avatar for ${this.UserName}`;
+//     this.imageTag = `<img src="${this.avatarUrl}" alt="${altText}">`
 // })
+
 
 const UserModel = model('Post-it Users', UserSchema)
 

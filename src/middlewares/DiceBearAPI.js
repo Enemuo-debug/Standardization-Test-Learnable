@@ -30,7 +30,8 @@ const avatarStyles = [
    
    const getRandomAvatarStyle = () => {
     // Your code here
-    return 
+    const index = Math.floor(Math.random() * avatarStyles.length);
+    return avatarStyles[index]
    }
    
    
@@ -74,4 +75,4 @@ const avatarStyles = [
    
    }
    // @_learnable
-   
+module.exports = generateRandomAvatar

@@ -6,6 +6,7 @@ const CommentService = require("../services/Comment.Service");
 require("dotenv").config();
 const maxAge1 = 3 * 24 * 60 * 60 * 1000;
 const { validationResult } = require("express-validator");
+const generateRandomAvatar = require('../middlewares/DiceBearAPI')
 
 class UserControllers {
   async SignUp(req, res) {
@@ -40,7 +41,8 @@ class UserControllers {
                 success: true
               });
         } else {
-          const User = await UserServices.createUser(name, password, email);
+          const avatarUrl = await generateRandomAvatar(email)
+          const User = await UserServices.createUser(name, password, email, avatarUrl);
           return res.json({
             message: "User created successfully",
             success: true,
@@ -232,6 +234,103 @@ class UserControllers {
         success: true,
         data: AllUsers,
     })
+  }
+  async GetUserById(req, res) {
+    const token = req.cookies.jwt
+    if(!token){
+      return res.status(400).json({
+        message: 'Login to access this feature',
+        success: false
+      })
+    }
+    const AllUsers = await UserServices.findByID(req.params.userid)
+    if(AllUsers){
+      return res.status(201).json({
+        message: "All Users fetched successfully",
+        success: true,
+        data: AllUsers,
+      })
+    }
+    return res.status(201).json({
+      message: "User has been deleted or no longer exists in DB",
+      success: false,
+    })
+  }
+  async GetCommentsOfUsersPost(req, res){
+    const token = req.cookies.jwt
+    const { userid, postid } = req.params
+    if(!token){
+      return res.status(400).json({
+        message: 'Login to access this feature',
+        success: false
+      })
+    }
+    const user = await UserServices.findByID(userid)
+    if(user){
+      const post = await PostServices.findByID(postid)
+      if(post){
+        const comments = await CommentService.GetPostsComment(postid)
+        return res.status(200).json({
+          message: 'Comments fetch was successful',
+          success: true,
+          data: comments
+        })
+      }
+      else{
+        return res.status(400).json({
+          message: 'Post does not exist or has been deleted from data base',
+          success: false
+        })
+      }
+    }
+    else{
+      return res.status(400).json({
+        message: 'User doesn\'t exist on DataBase or has been deleted',
+        success: false
+      })
+    }
+  }
+  async GetCommentOfUsersPost(req, res){
+    const token = req.cookies.jwt
+    const { userid, postid, id } = req.params
+    if(!token){
+      return res.status(400).json({
+        message: 'Login to access this feature',
+        success: false
+      })
+    }
+    const user = await UserServices.findByID(userid)
+    if(user){
+      const post = await PostServices.findByID(postid)
+      if(post){
+        const comment = await CommentService.findById(id)
+        if(comment){
+          return res.status(200).json({
+            message: 'Comment fetch was successful',
+            success: true,
+            data: comment
+          })
+        }
+        else{
+          return res.status(400).json({
+            message: 'Comment does not exist or has been deleted from data base',
+            success: false
+          })
+        }
+      }
+      else{
+        return res.status(400).json({
+          message: 'Post does not exist or has been deleted from data base',
+          success: false
+        })
+      }
+    }
+    else{
+      return res.status(400).json({
+        message: 'User doesn\'t exist on DataBase or has been deleted',
+        success: false
+      })
+    }
   }
 }
 

@@ -157,10 +157,10 @@ class CommentController {
         })
       }
     }
-    async FindAllCommentOfAPostByID(req, res){
+    async FindCommentOfAPostByID(req, res){
       const token = req.cookies.jwt
-      const { id, id2 } = req.params
-      const StuffToEdit = PostServices.findByID(id)
+      const { postid, commentid } = req.params
+      const StuffToEdit = PostsServices.findByID(postid)
       if(StuffToEdit){
           if(!token){
               return res.status(404).json({
@@ -169,36 +169,23 @@ class CommentController {
               })
           }
           else{
-              const comments = await CommentServices.GetPostsComment(req.params.id)
-              // const comments = comment.reverse()
-              let data1 = ''
-              for (let i = 0; i < comments.length; i++){
-                  if(!comments[i].isActive){
-                      res.status(404).json({
-                          message: 'This comment has been deleted and cannot be tampered',
-                          success: false
-                      })
-                  }
-                  else if (comments[i]._id !== id2){
-                    res.status(404).json({
-                      message: 'The Comment ID is wrong',
-                      success: false
-                    })
-                  }
-                  const user = await UserServices.findByID(comments[i].Commenter)
-                  data1 = data1 + `${comments[i].Comment} by ${user.UserName}
-                  `
-              }
-              return res.status(201).json({
-                  message: 'Comments have been successfully fetched',
+              const comment = await CommentServices.findById(commentid)
+              if(comment){
+                return res.status(200).json({
+                  message: 'Comment fetched',
                   success: true,
-                  data: data1
+                  data: comment
+                })
+              }
+              return res.status(400).json({
+                message: 'There is no such comment with that id or it has been deleted',
+                success: false
               })
           }
       }
       else{
           return res.status(400).json({
-              message: 'This post no longer exists and hence cannot be edited',
+              message: 'This post no longer exists and hence its comments cannot be fetched',
               success: false
           })
       }

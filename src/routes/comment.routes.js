@@ -1,10 +1,17 @@
-const {
-    CreateComment,
-    UpdateComment
-} = require('../controllers/Comment.Controller')
-const router = require('express').Router()
+// const {
+    
+    
+    
+// } = require('../controllers/Comment.Controller')
+// const router = require('express').Router()
+// const AuthenticationManager = require('../middlewares/Auth.Middlewares')
+// const {
+//     CommentValidate,
+//     CommentUpdateValidate
+// } = require('../middlewares/ValidationSignUp')
 
-router.post('/createComment/:postid', CreateComment)
-router.put('/updateComment/:postid/:commentid', UpdateComment)
 
-module.exports = router
+
+
+
+// module.exports = router

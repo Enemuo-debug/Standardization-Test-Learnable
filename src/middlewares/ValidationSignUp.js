@@ -121,6 +121,30 @@ class Validators {
             next()
         }
     }
+    async CommentValidate(req, res, next){
+        const { details } = req.body
+        if(!details){
+            return res.status(404).json({
+                message: 'Enter a comment',
+                success: false
+            })
+        }
+        else{
+            next()
+        }
+    }
+    async CommentUpdateValidate(req, res, next){
+        const { Comment } = req.body
+        if(!Comment){
+            return res.status(404).json({
+                message: 'Enter a comment',
+                success: false
+            })
+        }
+        else{
+            next()
+        }
+    }
 }
 
 module.exports = new Validators()

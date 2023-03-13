@@ -1,11 +1,13 @@
 const UserModel = require('../models/User.Model')
 
 class UserServices {
-    async createUser(name, password, email){
+    async createUser(name, password, email, avatarUrl){
         return await UserModel.create({
             UserName: name,
             PassWord: password,
-            Email: email
+            Email: email,
+            avatarUrl: avatarUrl,
+            imageTag: `<img src="${avatarUrl}" alt="Avatar Url">`
         })
     }
     async findUsers(){
